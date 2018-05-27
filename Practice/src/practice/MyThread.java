@@ -1,15 +1,19 @@
 package practice;
 
-import com.sun.media.jfxmedia.events.NewFrameEvent;
-
-import account.Account;
-import account.DrawThread;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class MyThread{	
 	public static void main(String[] args) {
-		Account myAccount = new Account(1000.0, "Test Account");
-		new DrawThread("Matthew", myAccount, 800).start();
-		new DrawThread("Linda", myAccount, 800).start();
+		ExecutorService newFixedThreadPool = Executors.newFixedThreadPool(6);
+		Runnable runnable = () -> {
+			for (int i = 0; i < 100; i++) {
+				System.out.println(Thread.currentThread().getName()+":"+i);
+			}
+		};
+		newFixedThreadPool.submit(runnable);
+		newFixedThreadPool.submit(runnable);
+		newFixedThreadPool.shutdown();
 	}	
 }
 
